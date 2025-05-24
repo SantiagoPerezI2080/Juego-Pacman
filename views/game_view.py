@@ -10,6 +10,12 @@ from config import (
 
 class GameView:
     def __init__(self, model):
+        # Inicializa la vista del juego
+        pygame.init()
+        self.screen = pygame.display.set_mode((600, 400))
+        self.clock = pygame.time.Clock()
+
+        # Inicializa el modelo del juego
         self.model = model
 
     def init_pygame(self) -> None:
@@ -19,6 +25,26 @@ class GameView:
         self.clock = pygame.time.Clock()
         # Inicializar la fuente del HUD
         pygame.font.init()
+
+        # Vista del juego Game Over
+    def show_game_over(self, screen):
+        # Crear una capa semitransparente sobre el juego (opcional)
+        overlay = pygame.Surface(screen.get_size())
+        overlay.set_alpha(180)  # Transparencia (0-255)
+        overlay.fill((0, 0, 0))  # Fondo negro
+        screen.blit(overlay, (0, 0))
+
+        # Renderizar el texto centrado
+        font_size = 48  # Ajusta el tamaño para que no sea tan grande
+        font = pygame.font.SysFont(None, font_size)
+        text = font.render("GAME OVER", True, (255, 0, 0))
+        rect = text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+        screen.blit(text, rect)
+
+        pygame.display.flip()
+        pygame.time.wait(3000)  # Esperar 3 segundos antes de cerrar
+            
+
 
     def process_events(self, pacman) -> bool:
         for event in pygame.event.get():
@@ -105,3 +131,6 @@ class GameView:
 
     def quit(self) -> None:
         pygame.quit()
+
+
+    

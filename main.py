@@ -1,8 +1,10 @@
 # main.py
-
+import pygame
 import os
 from controllers.game_controller import GameController
 from config import MAP_FILE
+
+
 
 if __name__ == '__main__':
     # Construye la ruta absoluta al mapa

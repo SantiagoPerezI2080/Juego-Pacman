@@ -62,12 +62,13 @@ class GameView:
                     pacman.set_direction(1, 0)
         return True
 
+
     def render(self, model) -> None:
         # Fondo
         self.screen.fill(COLOR_BG)
 
         # Muros
-        for y, row in enumerate(model.walls):
+        for y, row in enumerate(model.entity_manager.walls):
             for x, cell in enumerate(row):
                 if cell == 1:
                     rect = pygame.Rect(
@@ -79,7 +80,7 @@ class GameView:
                     pygame.draw.rect(self.screen, COLOR_WALL, rect)
 
         # Comida normal
-        for x, y in model.food:
+        for x, y in model.entity_manager.food:
             center = (
                 x * TILE_SIZE + TILE_SIZE // 2,
                 y * TILE_SIZE + TILE_SIZE // 2
@@ -91,12 +92,8 @@ class GameView:
                 TILE_SIZE // 6
             )
 
-        # (Opcional) Comida de poder si la detectas como distinto de '.'
-        # Por defecto no hay en el builder; si la añades,
-        # model.power_food podría iterarse aquí con COLOR_POWER.
-
         # Pac‑Man
-        px, py = model.pacman.position
+        px, py = model.entity_manager.pacman.position
         center_p = (
             px * TILE_SIZE + TILE_SIZE // 2,
             py * TILE_SIZE + TILE_SIZE // 2
@@ -109,7 +106,7 @@ class GameView:
         )
 
         # Fantasmas
-        for ghost in model.ghosts:
+        for ghost in model.entity_manager.ghosts:
             gx, gy = ghost.position
             center_g = (
                 gx * TILE_SIZE + TILE_SIZE // 2,
@@ -128,6 +125,7 @@ class GameView:
         # Actualizar pantalla y controlar FPS
         pygame.display.flip()
         self.clock.tick(FPS)
+
 
     def quit(self) -> None:
         pygame.quit()

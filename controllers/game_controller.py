@@ -25,10 +25,21 @@ class GameController:
             self.view.render(self.model)
         self.view.quit()
  """
-    def run(self):
+    """ def run(self):
         running = True
         while running:
             running = self.view.process_events(self.model.pacman)
+            if not self.model.game_over:
+                self.model.update()
+                self.view.render(self.model)
+            else:
+                self.view.show_game_over(self.view.screen)
+                running = False """
+    
+    def run(self):
+        running = True
+        while running:
+            running = self.view.process_events(self.model.entity_manager.pacman)
             if not self.model.game_over:
                 self.model.update()
                 self.view.render(self.model)

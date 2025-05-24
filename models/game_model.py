@@ -1,4 +1,4 @@
-# models/game_model.py
+""" # models/game_model.py
 
 import random
 from typing import List, Tuple
@@ -65,4 +65,37 @@ class GameModel:
         # 5) Recolectar comida
         if self.pacman.position in self.food:
             self.food.remove(self.pacman.position)
-            self.score_display.score += 10
+            self.score_display.score += 10 """
+
+import random
+from services.level_loader import LevelBuilder
+from ui.score_display import ScoreDisplay
+from .entity_manager import EntityManager
+from .collision_manager import CollisionManager
+from .score_manager import ScoreManager
+
+class GameModel:
+    def __init__(self, level_file: str):
+        builder = LevelBuilder(level_file)
+        walls, food, entities = builder.build()
+        self.score_display = ScoreDisplay()
+        self.entity_manager = EntityManager(walls, food, entities)
+        self.collision_manager = CollisionManager(self.entity_manager)
+        self.score_manager = ScoreManager(self.entity_manager, self.score_display)
+        self.game_over = False
+
+    def update(self) -> None:
+        pacman_prev = self.entity_manager.pacman.position
+        ghosts_prev = [ghost.position for ghost in self.entity_manager.ghosts]
+
+        self.entity_manager.update_entities()
+
+        if self.collision_manager.check_pacman_ghost_collision():
+            self.game_over = True
+            return
+
+        if self.collision_manager.check_swap_collision(pacman_prev, ghosts_prev):
+            self.game_over = True
+            return
+
+        self.score_manager.collect_food()

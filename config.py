@@ -10,7 +10,7 @@ MAP_COLS = 24
 MAP_ROWS = 24
 
 # Tamaño de cada celda (en píxeles)
-TILE_SIZE = 20
+TILE_SIZE = 25
 
 # Tamaño de la ventana (en píxeles)
 SCREEN_WIDTH  = MAP_COLS * TILE_SIZE   # 24 columnas × 20 px = 480 px

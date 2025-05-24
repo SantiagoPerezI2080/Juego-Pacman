@@ -59,8 +59,3 @@ class GameModel:
             if ghost.position == self.pacman.position:
                 return True
         return False
-
-
-        
-        
-        
